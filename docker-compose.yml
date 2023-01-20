@@ -1,0 +1,36 @@
+version: "3.4"
+
+services:
+  database:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    secrets:
+      - database-user
+      - database-password
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/database-user
+      POSTGRES_PASSWORD_FILE: /run/secrets/database-password
+    restart: unless-stopped
+    volumes:
+      - database:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/10-init.sql
+  server:
+    image: payara/server-full:5.2022.5-jdk17
+    ports:
+      - "8080:8080"
+      - "8181:8181" # HTTPS listener
+      - "4848:4848" # HTTPS admin listener
+      - "9009:9009" # Debug port
+    restart: unless-stopped
+    depends_on:
+      - database
+
+secrets:
+  database-user:
+    file: ./database/user.txt
+  database-password:
+    file: ./database/password.txt
+
+volumes:
+  database: {}

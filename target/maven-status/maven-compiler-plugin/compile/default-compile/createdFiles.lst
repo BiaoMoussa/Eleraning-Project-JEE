@@ -1,0 +1,8 @@
+com/edu/beans/Project.class
+com/edu/beans/Training.class
+com/edu/servlets/ModuleServlet.class
+com/edu/beans/Course.class
+com/edu/servlets/TrainingServlet.class
+com/edu/beans/Tutorial.class
+com/edu/servlets/HelloServlet.class
+com/edu/beans/Module.class
